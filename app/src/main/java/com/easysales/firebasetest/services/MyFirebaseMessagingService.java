@@ -1,6 +1,7 @@
 package com.easysales.firebasetest.services;
 
 import android.app.NotificationManager;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 
 import com.easysales.firebasetest.R;
@@ -15,12 +16,18 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(remoteMessage.getNotification().getTitle())
-                    .setContentText(remoteMessage.getNotification().getBody());
+        InvoikeNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+    }
 
-        NotificationManager notify = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notify.notify(101, mBuilder.build());
+
+    private void InvoikeNotification(String title, String text) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification))
+                .setContentTitle(title)
+                .setContentText(text);
+
+        NotificationManager notifyMng  = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        notifyMng.notify(101, mBuilder.build());
     }
 }
